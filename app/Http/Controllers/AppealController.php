@@ -11,26 +11,51 @@ class AppealController extends Controller
     public function store(Request $request){
         $id = time() . md5(uniqid());
         $request->merge(["create_time" => date("Y-m-d H:i:s"), "id" => $id]);
-        $result = Validator::make($request->all(),[
-            "story" => "required",
-        ],[
-            "story.required" => "故事不能为空",
-        ]);
-        if($result->fails()){
-            return response()->json(['message' => "插入失败"], 400);            
-        }
-        $operation = DB::table("appeal")->insert([
-            'id' => $request['id'],
-            'nickname' => $request['nickname'],
-            'music' => $request['music'],
-            'story' => $request['story'],
-            'create_time' => $request['create_time']
-        ]);
-        if($operation){
-            return response()->json(['message' => "插入成功"], 200);
+        if($request->get("type") == 1){
+            $result = Validator::make($request->all(),[
+                "story" => "required",
+            ],[
+                "story.required" => "故事不能为空",
+            ]);
+            if($result->fails()){
+                return response()->json(['message' => "故事不能为空"], 400);            
+            }
+            $operation = DB::table("appeal")->insert([
+                'id' => $request['id'],
+                'nickname' => $request['nickname'],
+                'music' => $request['music'],
+                'story' => $request['story'],
+                'create_time' => $request['create_time']
+            ]);
+            if($operation){
+                return response()->json(['message' => "提交成功"], 200);
+            }
+            else{
+                return response()->json(['message' => "提交失败"], 400);
+            }
         }
         else{
-            return response()->json(['message' => "插入失败"], 400);
+            $result = Validator::make($request->all(),[
+                "type_text" => "required",
+            ],[
+                "story.required" => "类型不能为空",
+            ]);
+            if($result->fails()){
+                return response()->json(['message' => "类型不能为空"], 400);            
+            }
+            $operation = DB::table("proposal")->insert([
+                'id' => $request['id'],
+                'nickname' => $request['nickname'],
+                'type_text' => $request['type_text'],
+                'proposal' => $request['proposal'],
+                'create_time' => $request['create_time']
+            ]);
+            if($operation){
+                return response()->json(['message' => "提交成功"], 200);
+            }
+            else{
+                return response()->json(['message' => "提交失败"], 400);
+            }
         }
     }
 }

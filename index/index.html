@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,26 +8,66 @@
     <title>打小报告</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/zdialog.css">
+    <link rel="stylesheet" href="./css/font-awesome.min.css">
+    <script src="./js/jquery.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
-    
+    <script src="./js/zdialog.js"></script>
+    <script src="./js/index.js"></script>
+
 </head>
+
 <body>
-    <div class="form_div">
+    <form class="form_div">
         <h2 class="text-center">Focus On You</h2>
         <div class="input_div">
             <label for="">昵称</label>
-            <input type="text" placeholder="我们怎么称呼您你？">
+            <input type="text" placeholder="我们如何称呼你呢？（可匿名）" name="nickname">
         </div>
-        <div class="input_div">
+        <ul class="nav nav-tabs input_qh">
+            <li class="nav-item" data-fun="music">
+                <a class="nav-link active" href="#">我想听</a>
+            </li>
+            <li class="nav-item" data-fun="feedback">
+                <a class="nav-link" href="#">我想说</a>
+            </li>
+        </ul>
+        <div class="input_div input_music" data-card1>
             <label for="">歌曲名</label>
-            <input type="text" placeholder="你想附上什么歌曲？">
+            <input type="text" placeholder="你想听到哪首歌呢？" name="music">
         </div>
-        <div class="input_div">
-            <textarea name="" id="" rows="10" placeholder="写下你的故事吧！"></textarea>
+        <div class="input_div textarea_div" data-card1>
+            <textarea id="" rows="10" placeholder="关于这首歌，把你想告诉我们的写下来吧！" name="story"></textarea>
+        </div>
+        <div class="want_say" data-card2 style="display: none">
+            <div>
+                <span>热门事件的相关线索</span>
+                <i class="fa fa-check"></i>
+            </div>
+            <div>
+                <span>你希望大家关注的事</span>
+                <i class="fa fa-check"></i>
+            </div>
+            <div>
+                <span>你希望大家看到的人</span>
+                <i class="fa fa-check"></i>
+            </div>
+            <div>
+                <span>你喜欢的文艺作品选摘</span>
+                <i class="fa fa-check"></i>
+            </div>
+            <div>
+                <span>其他</span>
+                <i class="fa fa-check"></i>
+            </div>
+        </div>
+        <div class="input_div textarea_div" data-card2 style="display: none">
+            <textarea id="" rows="4" placeholder="说说你的看法！" name="proposal"></textarea>
         </div>
         <div class="button_div">
-            <button class="btn btn-danger">提交</button>
+            <button class="btn btn-danger" type="button" data-upload>提交</button>
         </div>
-    </div>
+    </form>
 </body>
+
 </html>
