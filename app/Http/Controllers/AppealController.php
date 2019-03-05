@@ -25,6 +25,7 @@ class AppealController extends Controller
                 'nickname' => $request['nickname'],
                 'music' => $request['music'],
                 'story' => $request['story'],
+                'contact' => $request['contact'],
                 'create_time' => $request['create_time']
             ]);
             if($operation){
@@ -48,6 +49,7 @@ class AppealController extends Controller
                 'nickname' => $request['nickname'],
                 'type_text' => $request['type_text'],
                 'proposal' => $request['proposal'],
+                'contact' => $request['contact'],
                 'create_time' => $request['create_time']
             ]);
             if($operation){
