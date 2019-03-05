@@ -28,10 +28,10 @@ class AppealController extends Controller
                 'create_time' => $request['create_time']
             ]);
             if($operation){
-                return response()->json(['message' => "提交成功"], 200);
+                return response()->json(['message' => "收到，欢迎下次上诉"], 200);
             }
             else{
-                return response()->json(['message' => "提交失败"], 400);
+                return response()->json(['message' => "上诉失败"], 400);
             }
         }
         else{
@@ -51,10 +51,10 @@ class AppealController extends Controller
                 'create_time' => $request['create_time']
             ]);
             if($operation){
-                return response()->json(['message' => "提交成功"], 200);
+                return response()->json(['message' => "收到，欢迎下次反馈"], 200);
             }
             else{
-                return response()->json(['message' => "提交失败"], 400);
+                return response()->json(['message' => "反馈失败"], 400);
             }
         }
     }
