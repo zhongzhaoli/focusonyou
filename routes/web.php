@@ -19,3 +19,5 @@ header("Access-Control-Expose-Headers: *");
 
 //上诉API
 Route::resource("appeal", "AppealController");
+//计划API
+Route::resource("plan", "PlanController");
