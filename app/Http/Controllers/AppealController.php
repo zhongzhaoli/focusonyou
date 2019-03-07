@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class AppealController extends Controller
 {
+    public function show($table_name){
+        $a = DB::table($table_name)->get();
+        return $a;
+    }
     public function store(Request $request){
         $id = time() . md5(uniqid());
         $request->merge(["create_time" => date("Y-m-d H:i:s"), "id" => $id]);
