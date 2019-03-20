@@ -14,12 +14,12 @@ class PlanController extends Controller
     public function store(Request $request){
         $text = $request->get("content");
         if($text == ""){
-            return response()->json(["message" => "计划不能为空哦！"], 400);
+            return response()->json(["message" => "计划不能为空哦！", "status" => 200]);
         }
         $user_id = $request->get("userid");
         $count = DB::table("plan")->where(["user_id" => $user_id, "create_time_data" => date("Y-m-d")])->get();        
         if(count($count) == 5){
-            return response()->json(["message" => "每天只能计划5件事哦！"], 400);
+            return response()->json(["message" => "每天只能计划5件事哦！", "status" => 200]);
         }
         $bg = 'bg' . rand(1, 4);
         $id = time() . md5(uniqid());
@@ -34,7 +34,7 @@ class PlanController extends Controller
             "create_time_data" => $create_time_data
         ]);
         if($a){
-            return response()->json(["message" => "提交成功"], 200);
+            return response()->json(["message" => "提交成功", "status" => 200]);
         }
     }
 }
