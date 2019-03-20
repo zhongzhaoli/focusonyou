@@ -21,3 +21,5 @@ header("Access-Control-Expose-Headers: *");
 Route::resource("appeal", "AppealController");
 //计划API
 Route::resource("plan", "PlanController");
+//微信
+Route::post("/wechat", "WechatController@index");
