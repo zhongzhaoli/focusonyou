@@ -20,12 +20,14 @@ class PlanController extends Controller
         $bg = 'bg' . rand(1, 4);
         $id = time() . md5(uniqid());
         $create_time = date("Y-m-d H:i:s");
+        $create_time_data = date("Y-m-d");
         $a = DB::table("plan")->insert([
             "id" => $id,
             "user_id" => $user_id,
             "text" => $text,
             "create_time" => $create_time,
-            "bg" => $bg
+            "bg" => $bg,
+            "create_time_data" => $create_time_data
         ]);
         if($a){
             return response()->json(["message" => "提交成功"], 200);
