@@ -19,7 +19,7 @@ class PlanController extends Controller
         $user_id = $request->get("userid");
         $count = DB::table("plan")->where(["user_id" => $user_id, "create_time_data" => date("Y-m-d")])->get();        
         if(count($count) == 5){
-            return response()->json(["message" => "每天只能计划5件事哦！"], 400)
+            return response()->json(["message" => "每天只能计划5件事哦！"], 400);
         }
         $bg = 'bg' . rand(1, 4);
         $id = time() . md5(uniqid());
