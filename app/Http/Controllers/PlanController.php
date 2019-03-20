@@ -9,12 +9,7 @@ class PlanController extends Controller
 {
     public function show($id){
         $a = DB::table("plan")->where("user_id", $id)->get();
-        if(count($a)){
-            return $a;
-        }
-        else{
-            return response()->json(["message" => "null"], 400);
-        }
+        return $a;
     }
     public function store(Request $request){
         $text = $request->get("content");
