@@ -16,6 +16,9 @@ class PlanController extends Controller
         if($text == ""){
             return response()->json(["message" => "计划不能为空", "status" => 400]);
         }
+        if(count($text) > 8){
+            return response()->json(["message" => "计划字数过多", "status" => 400]);
+        }
         $user_id = $request->get("userid");
         $count = DB::table("plan")->where(["user_id" => $user_id, "create_time_data" => date("Y-m-d")])->get();        
         if(count($count) == 5){
@@ -31,7 +34,9 @@ class PlanController extends Controller
             "text" => $text,
             "create_time" => $create_time,
             "bg" => $bg,
-            "create_time_data" => $create_time_data
+            "create_time_data" => $create_time_data,
+            "encourage" => $request->get("encourage"),
+            "start_time" => $request->get("start_time")
         ]);
         if($a){
             return response()->json(["message" => "提交成功", "status" => 200]);
