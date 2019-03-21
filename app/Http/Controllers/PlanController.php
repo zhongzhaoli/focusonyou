@@ -8,7 +8,7 @@ use DB;
 class PlanController extends Controller
 {
     public function show($id){
-        $a = DB::table("plan")->where("user_id", $id)->get();
+        $a = DB::table("plan")->where(["user_id" => $id, "create_time_data" => date("Y-m-d")])->get();
         return $a;
     }
     public function store(Request $request){
