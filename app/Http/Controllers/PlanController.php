@@ -16,7 +16,7 @@ class PlanController extends Controller
         if($text == ""){
             return response()->json(["message" => "计划不能为空", "status" => 400]);
         }
-        if(strlen($text) > 8){
+        if(mb_strlen($text) > 10){
             return response()->json(["message" => "计划太长", "status" => 400]);
         }
         $user_id = $request->get("userid");
