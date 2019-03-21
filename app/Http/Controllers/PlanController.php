@@ -24,7 +24,6 @@ class PlanController extends Controller
         if(count($count) == 5){
             return response()->json(["message" => "计划过多", "status" => 400]);
         }
-        $bg = 'bg' . rand(1, 4);
         $id = time() . md5(uniqid());
         $create_time = date("Y-m-d H:i:s");
         $create_time_data = date("Y-m-d");
@@ -33,7 +32,6 @@ class PlanController extends Controller
             "user_id" => $user_id,
             "text" => $text,
             "create_time" => $create_time,
-            "bg" => $bg,
             "create_time_data" => $create_time_data,
             "encourage" => $request->get("encourage"),
             "start_time" => $request->get("start_time")
