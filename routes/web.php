@@ -23,3 +23,5 @@ Route::resource("appeal", "AppealController");
 Route::resource("plan", "PlanController");
 //微信
 Route::post("/wechat", "WechatController@index");
+//早睡打卡
+Route::resource("sleep", "SleepController");
