@@ -15,9 +15,11 @@ class SleepController extends Controller
             "clock_count" => 0,
             "continuity_clock" => 0
         ];
+        //如果中途断了就不用往下计算了（连续打卡）
+        $continuity_type = 1;
 
         //获取user的所有打卡纪录  [1,2,3,4] count = 4
-        $a = DB::table("sleep")->where("user_id", $user_id)->OrderBy("create_time_date","desc")->get();
+        $a = DB::table("sleep")->where("user_id", $user_id)->OrderBy("create_time_date","asc")->get();
         //今天
         $today = date("Y-m-d");
         if(count($a)){
@@ -30,14 +32,27 @@ class SleepController extends Controller
             $return_data['clock_count'] = count($a);
 
             //连续打卡 先获取今天和数据库的第一条是否相差1 如果不是 就默认是0了
-            $sql_first = (date('Y-m-d',strtotime(date('Y-m-d')) - 3600 * 24) == $a[0]->create_time_date) ? 'true' : 'false';
-
+            $sql_first = (date('Y-m-d',strtotime(date('Y-m-d')) - 3600 * 24) == $a[count($a) - 1]->create_time_date || $a[count($a) - 1]->create_time_date == date("Y-m-d")) ? 'true' : 'false';
             for($i = count($a); $i > 0; $i--){
                 $j = $i - 1;
                 //如果就相差一天 也就是说昨天也打卡了
-                if($sql_first && $i > 1){
-                //     //判断此次和下次是否相差一天 是的话就+1
+                if($sql_first && $i > 1 && $continuity_type){
+                    //判断此次和下次是否相差一天 是的话就+1
                     if(date("Y-m-d",strtotime($a[$j]->create_time_date) - 3600 * 24) == date("Y-m-d",strtotime($a[$j - 1]->create_time_date))){
+                        echo $return_data['continuity_clock'];
+                        if($i == count($a)){
+                            $return_data['continuity_clock'] = $return_data['continuity_clock'] + 2;
+                        }
+                        else{
+                            $return_data['continuity_clock']++;
+                        }
+                    }
+                    else{
+                        //如果最后一天数据是今天的话 而且上一天不是 今天的上一天 则是1
+                        if($a[$j]->create_time_date == date("Y-m-d")){
+                            $return_data['continuity_clock'] = 1;
+                        }
+                        $continuity_type = 0;
                     }
                 }
             }
