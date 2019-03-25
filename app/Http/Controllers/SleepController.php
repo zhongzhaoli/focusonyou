@@ -23,7 +23,7 @@ class SleepController extends Controller
         //今天
         $today = date("Y-m-d");
         if(count($a)){
-            if($a[0]->create_time_date == date("Y-m-d")){
+            if($a[count($a) - 1]->create_time_date == date("Y-m-d")){
                 $return_data['need_clock'] = 0;
             }
             else{
@@ -39,7 +39,6 @@ class SleepController extends Controller
                 if($sql_first && $i > 1 && $continuity_type){
                     //判断此次和下次是否相差一天 是的话就+1
                     if(date("Y-m-d",strtotime($a[$j]->create_time_date) - 3600 * 24) == date("Y-m-d",strtotime($a[$j - 1]->create_time_date))){
-                        echo $return_data['continuity_clock'];
                         if($i == count($a)){
                             $return_data['continuity_clock'] = $return_data['continuity_clock'] + 2;
                         }
