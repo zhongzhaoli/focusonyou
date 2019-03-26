@@ -13,8 +13,10 @@ class SleepController extends Controller
             //0是不用打卡 1是用打卡
             "need_clock" => 1,
             "clock_count" => 0,
-            "continuity_clock" => 0
+            "continuity_clock" => 0,
+            "longer_clock" => 0
         ];
+        $max_clock = 0;
         //如果中途断了就不用往下计算了（连续打卡）
         $continuity_type = 1;
 
@@ -41,9 +43,14 @@ class SleepController extends Controller
                     if(date("Y-m-d",strtotime($a[$j]->create_time_date) - 3600 * 24) == date("Y-m-d",strtotime($a[$j - 1]->create_time_date))){
                         if($i == count($a)){
                             $return_data['continuity_clock'] = $return_data['continuity_clock'] + 2;
+                            $return_data['longer_clock'] = $return_data['longer_clock'] + 2;
                         }
                         else{
                             $return_data['continuity_clock']++;
+                            $return_data['longer_clock']++;
+                        }
+                        if($return_data['longer_clock'] > $max_clock){
+                            $max_clock = $return_data['longer_clock'];
                         }
                     }
                     else{
@@ -53,6 +60,9 @@ class SleepController extends Controller
                         }
                         $continuity_type = 0;
                     }
+                }
+                else{
+                    $max_clock = 0;
                 }
             }
         }
