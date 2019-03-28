@@ -16,7 +16,7 @@ class SleepController extends Controller
             "continuity_clock" => 0,
             "longer_clock" => 0
         ];
-        $max_clock = 0;
+        $max_clock = 1;
         //如果中途断了就不用往下计算了（连续打卡）
         $continuity_type = 1;
 
@@ -25,6 +25,7 @@ class SleepController extends Controller
         //今天
         $today = date("Y-m-d");
         if(count($a)){
+            $return_data['longer_clock'] = 1;
             if($a[count($a) - 1]->create_time_date == date("Y-m-d")){
                 $return_data['need_clock'] = 0;
             }
@@ -34,23 +35,33 @@ class SleepController extends Controller
             $return_data['clock_count'] = count($a);
 
             //连续打卡 先获取今天和数据库的第一条是否相差1 如果不是 就默认是0了
-            $sql_first = (date('Y-m-d',strtotime(date('Y-m-d')) - 3600 * 24) == $a[count($a) - 1]->create_time_date || $a[count($a) - 1]->create_time_date == date("Y-m-d")) ? 'true' : 'false';
+            $sql_first = (date('Y-m-d',strtotime(date('Y-m-d')) - 3600 * 24) == $a[count($a) - 1]->create_time_date || $a[count($a) - 1]->create_time_date == date("Y-m-d")) ? true : false;
             for($i = count($a); $i > 0; $i--){
                 $j = $i - 1;
+                //最长连续
+                if($i > 1){
+                    if(date("Y-m-d",strtotime($a[$j]->create_time_date) - 3600 * 24) == date("Y-m-d",strtotime($a[$j - 1]->create_time_date))){
+                        $max_clock++;
+                    }
+                    else{
+                        if($max_clock > $return_data['longer_clock']){
+                            $return_data['longer_clock'] = $max_clock;
+                        }
+                        $max_clock = 1;
+                    }
+                }
+                else{
+                    $return_data['longer_clock'] = $max_clock = $max_clock;
+                }
                 //如果就相差一天 也就是说昨天也打卡了
                 if($sql_first && $i > 1 && $continuity_type){
                     //判断此次和下次是否相差一天 是的话就+1
                     if(date("Y-m-d",strtotime($a[$j]->create_time_date) - 3600 * 24) == date("Y-m-d",strtotime($a[$j - 1]->create_time_date))){
                         if($i == count($a)){
                             $return_data['continuity_clock'] = $return_data['continuity_clock'] + 2;
-                            $return_data['longer_clock'] = $return_data['longer_clock'] + 2;
                         }
                         else{
                             $return_data['continuity_clock']++;
-                            $return_data['longer_clock']++;
-                        }
-                        if($return_data['longer_clock'] > $max_clock){
-                            $max_clock = $return_data['longer_clock'];
                         }
                     }
                     else{
@@ -61,16 +72,13 @@ class SleepController extends Controller
                         $continuity_type = 0;
                     }
                 }
-                else{
-                    $max_clock = 0;
-                }
             }
         }
         return $return_data;
     }
     public function store(Request $request){
         $now_hour = date("H");
-        if($now_hour > 10 && $now_hour < 23){
+        if($now_hour > 22 && $now_hour < 23){
             $user_id = $request->get("user_id");            
             $b = DB::table("sleep")->where(["user_id" => $user_id, "create_time_date" => date("Y-m-d")])->get();
             if(!count($b)){
