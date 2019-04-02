@@ -25,3 +25,13 @@ Route::resource("plan", "PlanController");
 Route::post("/wechat", "WechatController@index");
 //早睡打卡
 Route::resource("sleep", "SleepController");
+
+Route::post('login', 'PassportController@login');
+Route::post('register', 'PassportController@register');
+
+
+Route::group(['middleware' => 'auth:api'], function(){
+	Route::get('/admin', function(){
+        return "dasdas";
+    });
+});
