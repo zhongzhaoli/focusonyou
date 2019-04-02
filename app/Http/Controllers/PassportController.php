@@ -22,10 +22,10 @@ class PassportController extends Controller
         if(Auth::attempt(['name' => request('name'), 'password' => request('password')])){
             $user = Auth::user();
             $success['token'] =  $user->createToken('MyApp')->accessToken;
-            return response()->json(['success' => $success], $this->successStatus);
+            return response()->json(['message' => $success], $this->successStatus);
         }
         else{
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['error'=>'Unauthorised'], 400);
         }
     }
 
@@ -41,10 +41,15 @@ class PassportController extends Controller
             'name' => 'required',
             'password' => 'required',
             'c_password' => 'required|same:password',
+        ],[
+            "name.required" => "用户名不能为空",
+            "password.required" => "密码不能为空",
+            "c_password.required" => "密码不能为空",
+            "c_password.same" => "两次密码必须相同"
         ]);
  
         if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);            
+            return response()->json($validator->errors(), 400);            
         }
  
         $input = $request->all();
