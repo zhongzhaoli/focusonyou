@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class AppealController extends Controller
 {
     public function show($table_name){
-        $a = DB::table($table_name)->get();
+        $a = DB::table($table_name)->orderBy("create_time", 'desc')->get();
         return $a;
     }
     public function store(Request $request){
