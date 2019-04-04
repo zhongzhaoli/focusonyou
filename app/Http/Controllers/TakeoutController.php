@@ -8,6 +8,10 @@ use DB;
 
 class TakeoutController extends Controller
 {
+    public function index(){
+        $a = DB::table("takeout")->get();
+        return $a;
+    }
     public function store(Request $request){
         $img_arr = [$request->get("cover"), $request->get("menu")];
         $validator = Validator::make($request->all(), [
