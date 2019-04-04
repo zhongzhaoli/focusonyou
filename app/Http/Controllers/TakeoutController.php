@@ -37,7 +37,7 @@ class TakeoutController extends Controller
         $menu = "";
         for($i = 0; $i < count($img_arr); $i++){
             $prove_up = new ProveUpload();
-            $bo_prove = $prove_up->upload($img_arr[$i],"uploads/");
+            $bo_prove = $prove_up->upload($img_arr[$i],"uploads/takeout");
             if(!$bo_prove){
                 return response()->json(["prove" => "图片有错"],400);
             }
