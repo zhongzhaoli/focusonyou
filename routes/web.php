@@ -31,8 +31,5 @@ Route::post('register', 'PassportController@register');
 
 // ----------------------------------管理员用户权限---------------------------------------
 Route::group(['middleware' => 'auth:api'], function(){
-    Route::get("admin",function(){
-        return "da";
-    });
     Route::get("appeal/{table_name}", "AppealController@show");
 });
