@@ -37,7 +37,8 @@ class TakeoutController extends Controller
             if(!$bo_prove){
                 return response()->json(["prove" => "图片有错"],400);
             }
-            $prove_url = "http://localhost:7889/".$bo_prove;
+            // $prove_url = "http://localhost:7889/".$bo_prove;
+            $prove_url = "https://api.yuntunwj.com/focusonyou/public/".$bo_prove;
             ($i == 0) ? $cover = $prove_url : $menu = $prove_url;
             $request["prove"] = $prove_url;
         }
@@ -58,5 +59,12 @@ class TakeoutController extends Controller
         else{
             return response()->json(["message" => ["提交失败"]],400);
         }
+    }
+    public function show($id){
+        $a = DB::table("takeout")->where("id", $id)->get();
+        if(!count($a)){
+            return response()->json(["message" => "没有找到此商家"], 400);
+        }
+        return $a;
     }
 }
