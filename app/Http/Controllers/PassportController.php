@@ -71,5 +71,7 @@ class PassportController extends Controller
         $user = Auth::user();
         return response()->json(['success' => $user], $this->successStatus);
     }
-
+    public function isadmin(Request $request){
+        return $request->user()->name;
+    }
 }

@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,9 +33,7 @@ Route::get("/takeout/{id}", "TakeoutController@show");
 
 // ----------------------------------管理员用户权限---------------------------------------
 Route::group(['middleware' => 'auth:api'], function(){
-    Route::get("/isadmin", function(){
-        return response()->json([],200);
-    });
+    Route::get("/isadmin", "PassportController@isadmin");
     Route::get("appeal/{table_name}", "AppealController@show");
     Route::post("/takeout", "TakeoutController@store");
 });
