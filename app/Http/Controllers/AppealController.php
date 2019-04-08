@@ -24,6 +24,10 @@ class AppealController extends Controller
             if($result->fails()){
                 return response()->json(['message' => "故事不能为空"], 400);            
             }
+            $a = DB::table("appeal")->where(["nickname" => $request->get("nickname"), "story" => $request->get("story")])->get();
+            if(count($a)){
+                return response()->json(['message' => '请勿重复提交'], 400);
+            }
             $operation = DB::table("appeal")->insert([
                 'id' => $request['id'],
                 'nickname' => $request['nickname'],
