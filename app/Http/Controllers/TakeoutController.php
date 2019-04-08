@@ -55,7 +55,8 @@ class TakeoutController extends Controller
             "end_time" => $request->get("end_time"),
             "create_time" => date("Y-m-d H:i:s"),
             "cover" => $cover,
-            "menu" => $menu
+            "menu" => $menu,
+            "operator" => $request->user()->name
         ]);
         if($a){
             return response()->json(["message" => ["提交成功"]],200);
