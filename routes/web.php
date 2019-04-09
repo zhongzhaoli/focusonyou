@@ -30,10 +30,15 @@ Route::post('register', 'PassportController@register');
 //获取所有商家
 Route::get("/takeout", "TakeoutController@index");
 Route::get("/takeout/{id}", "TakeoutController@show");
+//获取树洞
+Route::get("/treehold/{id}", "TreeholdController@show");
+//发送树洞
+Route::post("/tree_send/{id}", "TreeholdController@send");
 
 // ----------------------------------管理员用户权限---------------------------------------
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get("/isadmin", "PassportController@isadmin");
     Route::get("appeal/{table_name}", "AppealController@show");
     Route::post("/takeout", "TakeoutController@store");
+    Route::post("/treehold", "TreeholdController@store");
 });
