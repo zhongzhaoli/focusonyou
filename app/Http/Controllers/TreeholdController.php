@@ -7,6 +7,10 @@ use DB;
 
 class TreeholdController extends Controller
 {
+    public function all_tree(){
+        $a = DB::table("treehold")->orderBy("create_time", 'desc')->get();
+        return $a;
+    }
     public function show($id){
         $a = DB::table("treehold_mes")->where("tree", $id)->get();
         $b = DB::table("treehold")->where("id", $id)->get();
