@@ -37,8 +37,14 @@ Route::post("/tree_send/{id}", "TreeholdController@send");
 
 // ----------------------------------管理员用户权限---------------------------------------
 Route::group(['middleware' => 'auth:api'], function(){
+    //返回管理员姓名
     Route::get("/isadmin", "PassportController@isadmin");
+    //查看反馈和上诉
     Route::get("appeal/{table_name}", "AppealController@show");
+    //外卖商家发布
     Route::post("/takeout", "TakeoutController@store");
+    //生成树洞
     Route::post("/treehold", "TreeholdController@store");
+    //获取所有树洞
+    Route::get("/tree_all", "TreeholdController@all_tree");
 });

@@ -9,7 +9,8 @@ class TreeholdController extends Controller
 {
     public function show($id){
         $a = DB::table("treehold_mes")->where("tree", $id)->get();
-        return $a;
+        $b = DB::table("treehold")->where("id", $id)->get();
+        return response()->json(["sj" => $a, "title" => $b], 200);
     }
     public function send($id, Request $request){
         if(!$request->get("content")){
@@ -48,7 +49,8 @@ class TreeholdController extends Controller
             $a = DB::table("treehold")->insert([
                 "id" => $id,
                 "create_time" => $create_time,
-                "title" => $request->get("title")
+                "title" => $request->get("title"),
+                "operator" => $request->user()->name
             ]);
             if($a){
                 return response()->json(["id" => $id], 200);
