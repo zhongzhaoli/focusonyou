@@ -20,11 +20,15 @@ class TakeoutController extends Controller
             'end_time' => 'required',
             'phone' => 'required|regex:/^1[345789][0-9]{9}$/',
             'cover' => "required",
-            'menu' => "required"
+            'menu' => "required",
+            'af_start_time' => 'required',
+            'af_end_time' => 'required'
         ],[
             'name.required' => "商家名不能为空",
-            'start_time.required' => "外卖开始时间不能为空",
-            'end_time.required' => "外卖结束时间不能为空",
+            'start_time.required' => "上午外卖开始时间不能为空",
+            'end_time.required' => "上午外卖结束时间不能为空",
+            'af_start_time.required' => "下午外卖开始时间不能为空",
+            'af_end_time.required' => "下午外卖结束时间不能为空",
             'phone.required' => "外卖电话不能为空",
             'phone.regex' => "外卖电话不合法",
             'cover.required' => "封面图不能为空",
@@ -53,6 +57,8 @@ class TakeoutController extends Controller
             "phone" => $request->get("phone"),
             "start_time" => $request->get("start_time"),
             "end_time" => $request->get("end_time"),
+            "af_start_time" => $request->get("af_start_time"),
+            "af_end_time" => $request->get("af_end_time"),
             "create_time" => date("Y-m-d H:i:s"),
             "cover" => $cover,
             "menu" => $menu,
