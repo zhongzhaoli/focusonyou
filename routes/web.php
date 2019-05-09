@@ -35,7 +35,14 @@ Route::get("/treehold/{id}", "TreeholdController@show");
 //发送树洞
 Route::post("/tree_send/{id}", "TreeholdController@send");
 
-// ----------------------------------管理员用户权限---------------------------------------
+// ----------------------------------母亲节活动----------------------------------
+Route::group(['prefix' => 'mother'], function(){
+    //来自星星的短信
+    Route::post("/message", "MotherController@store");
+});
+
+
+// ----------------------------------管理员用户权限-------------------------------
 Route::group(['middleware' => 'auth:api'], function(){
     //返回管理员姓名
     Route::get("/isadmin", "PassportController@isadmin");
