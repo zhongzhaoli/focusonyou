@@ -55,4 +55,6 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post("/treehold", "TreeholdController@store");
     //获取所有树洞
     Route::get("/tree_all", "TreeholdController@all_tree");
+    //母亲节数据
+    Route::get("/mother_data", "MotherController@get_mother_data");
 });

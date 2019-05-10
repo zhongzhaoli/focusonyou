@@ -16,8 +16,13 @@ class MotherController extends Controller
             return response()->json(["message" => "success"], 200);
         }
         else{
-            return response()->json(["message" => "error"], 200);
+            return response()->json(["message" => "error"], 400);
         }
+    }
+    public function get_mother_data(){
+        $a = DB::table("mother_message")->get();
+        $b = DB::table("mother_poster_num")->get();
+        return response()->json(['mes' => $a, 'poster' => $b[0]->num], 200);
     }
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
