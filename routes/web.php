@@ -39,6 +39,7 @@ Route::post("/tree_send/{id}", "TreeholdController@send");
 Route::group(['prefix' => 'mother'], function(){
     //来自星星的短信
     Route::post("/message", "MotherController@store");
+             Route::post("/poster", "MotherController@poster_num");
 });
 
 

@@ -8,6 +8,17 @@ use Validator;
 
 class MotherController extends Controller
 {
+    public function poster_num(){
+        $a = DB::table("mother_poster_num")->get();
+        $b = $a[0]->num + 1;
+        $c = DB::table("mother_poster_num")->update(["num" => $b]);
+        if($c){
+            return response()->json(["message" => "success"], 200);
+        }
+        else{
+            return response()->json(["message" => "error"], 200);
+        }
+    }
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'nickname' => 'required|Max:255',
