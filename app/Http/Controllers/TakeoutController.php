@@ -57,7 +57,7 @@ class TakeoutController extends Controller
         $a = DB::table("takeout")->insert([
             "id" => time() . md5(uniqid()),
             "name" => $request->get("name"),
-            "phone" => $request->get("contact") . ":" .$request->get("phone"),
+            "phone" => $request->get("contact") . "：" .$request->get("phone"),
             "start_time" => $request->get("start_time"),
             "end_time" => $request->get("end_time"),
             "af_start_time" => $request->get("af_start_time"),
