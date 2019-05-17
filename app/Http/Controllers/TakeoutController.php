@@ -32,23 +32,25 @@ class TakeoutController extends Controller
             'phone.required' => "外卖电话不能为空",
             'phone.regex' => "外卖电话不合法",
             'cover.required' => "封面图不能为空",
-            'menu.required' => "菜单图片不能为空",
+            'menu.required' => "菜单图片不能为空",
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);            
         }
-        $cover = "";
-        $menu = "";
+        $cover = [];
+        $menu = [];
         for($i = 0; $i < count($img_arr); $i++){
-            $prove_up = new ProveUpload();
-            $bo_prove = $prove_up->upload($img_arr[$i],"uploads/takeout/");
-            if(!$bo_prove){
-                return response()->json(["prove" => "图片有错"],400);
+            for($j = 0; $j < count($img_arr[$i]); $j++){
+                $prove_up = new ProveUpload();
+                $bo_prove = $prove_up->upload($img_arr[$i][$j],"uploads/takeout/");
+                if(!$bo_prove){
+                    return response()->json(["prove" => "图片有错"],400);
+                }
+                // $prove_url = "http://localhost:7889/".$bo_prove;
+                $prove_url = "https://api.yuntunwj.com/focusonyou/public/".$bo_prove;
+                ($i == 0) ? array_push($cover, $prove_url) : array_push($menu, $prove_url);
+                $request["prove"] = $prove_url;
             }
-            // $prove_url = "http://localhost:7889/".$bo_prove;
-            $prove_url = "https://api.yuntunwj.com/focusonyou/public/".$bo_prove;
-            ($i == 0) ? $cover = $prove_url : $menu = $prove_url;
-            $request["prove"] = $prove_url;
         }
 
         $a = DB::table("takeout")->insert([
@@ -60,12 +62,12 @@ class TakeoutController extends Controller
             "af_start_time" => $request->get("af_start_time"),
             "af_end_time" => $request->get("af_end_time"),
             "create_time" => date("Y-m-d H:i:s"),
-            "cover" => $cover,
-            "menu" => $menu,
+            "cover" => json_encode($cover),
+            "menu" => json_encode($menu),
             "operator" => $request->user()->name
         ]);
         if($a){
-            return response()->json(["message" => ["提交成功"]],200);
+            return response()->json(["message" => ["提交成功"]],200);
         }
         else{
             return response()->json(["message" => ["提交失败"]],400);
