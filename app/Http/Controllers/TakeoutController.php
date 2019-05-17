@@ -42,7 +42,7 @@ class TakeoutController extends Controller
                 return response()->json(["prove" => "图片有错"],400);
             }
             // $prove_url = "http://localhost:7889/".$bo_prove;
-            $prove_url = "https://api.yuntunwj.com/focusonyou/public/".$bo_prove;
+            $prove_url = "https://api.yuntunwj.com/focusonyou/public/takeout/".$bo_prove;
             ($i == 0) ? $cover = $prove_url : $menu = $prove_url;
             $request["prove"] = $prove_url;
         }
